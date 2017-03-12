@@ -147,26 +147,29 @@ def findentities3(filename, language_client): # input is Json
         entities = document.analyze_entities().entities
         #print entities
         countn = 1
+        org3 ={}
+        loc3 = []
+        itemdict3 ={}
         for entity in entities:
             countn = countn + 1;
             #if()
             print entity.name
             if entity.entity_type == 'LOCATION':
-                loc.append(entity.name)
-                if(dictloc.has_key(entity.name)):
-                    dictloc[entity.name] = int(dictloc[entity.name]) + 1
+                loc3.append( (entity.name).lower() )
+                if dictloc.has_key( (entity.name).lower() ):
+                    dictloc[(entity.name).lower()] = int(dictloc[(entity.name).lower()]) + 1
                 else:
-                    dictloc[entity.name] = 1
+                    dictloc[(entity.name).lower()] = 1
             if entity.entity_type == 'ORGANIZATION':
                 tmp ={}
-                tmp['orgname'] = entity.name
+                tmp['orgname'] = (entity.name).lower()
                 tmp['wiki'] = entity.metadata.get('wikipedia_url', '-')
-                org.append(tmp)
+                org3.append(tmp)
                 #org.append(entity.name + entity.metadata.get('wikipedia_url', '-'))
             else:
-                if(not itemdict.has_key(entity.name)):
-                    itemdict[entity.name] ={}
-                    itemdict[entity.name]['wiki']  = entity.metadata.get('wikipedia_url', '-')
+                if(not itemdict3.has_key((entity.name).lower())):
+                    itemdict3[(entity.name).lower()] ={}
+                    itemdict3[(entity.name).lower()]['wiki']  = entity.metadata.get('wikipedia_url', '-')
             
         if(len(loc) > 0) :
             #np.savetxt(savepath + 'loc/' +savename[index] +'_loc.txt',loc,fmt='%s',delimiter=' ')
@@ -179,9 +182,7 @@ def findentities3(filename, language_client): # input is Json
             store(org, savepath + 'org/' + savename[index] + content['id']+'_org.json')
         time.sleep(10)           
         print len(org), len(loc), len(itemdict)
-        #org =[]
-        #loc = []
-        #itemdict =[]
+
     #if(len(lines) == 0):
     #    return 0
     #else:
@@ -199,10 +200,12 @@ language_client = language.Client()
 #np.savetxt(savePath+'.txt',item,fmt='%s',delimiter=',')
 for index in range(len(filename)):
     print "index ", filename[index]
-    loc = []
-    org = []
-    item =[]
-    itemdict ={}
+    #loc = []
+    #org = []
+    #item =[]
+    #itemdict ={}
+    findentities3(path + filename[index], language_client) 
+    '''
     try:
         if( findentities3(path + filename[index], language_client) == 1) :
             #cursavepath = savename[index]
@@ -219,6 +222,7 @@ for index in range(len(filename)):
     except:
         with open('../wrong/wrong_list.txt','a') as wf:
             wf.write((filename[index]+'\n'))
+    '''
 highscoreLoc = sort_by_value(dictloc)
 np.savetxt(savepath + 'highscoreLoc.json',highscoreLoc,fmt='%s',delimiter=' ')
 #store(highscoreLoc, savepath +'highscoreLoc.json')
