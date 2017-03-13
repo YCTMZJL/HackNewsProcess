@@ -147,7 +147,7 @@ def findentities3(filename, language_client): # input is Json
         entities = document.analyze_entities().entities
         #print entities
         countn = 1
-        org3 ={}
+        org3 =[]
         loc3 = []
         itemdict3 ={}
         for entity in entities:
