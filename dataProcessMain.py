@@ -25,7 +25,8 @@ org2 =[]
 def store(measurements, savefile):   
     with open(savefile, 'w') as f:  
         f.write(json.dumps(measurements))  
-
+#map={}
+#ranked = sorted(map.items(), lambda x, y: cmp(x[1], y[1]), reverse=True) //排序可行
 def sort_by_value(dic):
     items=dic.items()
     backitems=[[v[1],v[0]] for v in items]
